@@ -17,12 +17,15 @@
   </fragment>
   <fragment
     android:id="@+id/SecondFragment"
-    android:label="@string/second_fragment_label"
+    android:label="{title}"
     android:name="com.example.starwiki.SecondFragment"
     tools:layout="@layout/fragment_second">
     <argument
       android:name="title"
       app:argType="string"
-      android:defaultValue="Info"/>
+      android:defaultValue="Movie info"/>
+    <argument
+      android:name="episodeId"
+      app:argType="integer"/>
   </fragment>
 </navigation>

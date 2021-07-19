@@ -27,10 +27,43 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
       android:text="@{film.title}"
-      tools:text="Film Item"
-      style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+      tools:text="Title"
+      style="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+    <TextView
+      android:id="@+id/filmDirector"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/filmName"
+      android:text="@{film.director}"
+      tools:text="Director"
+      style="@style/TextAppearance.MaterialComponents.Body1"/>
+
+    <TextView
+      android:id="@+id/filmProducer"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/filmDirector"
+      android:text="@{film.producer}"
+      tools:text="Producer"
+      style="@style/TextAppearance.MaterialComponents.Body1"/>
+
+    <TextView
+      android:id="@+id/filmReleaseDate"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/filmProducer"
+      android:text="@{film.releaseDate}"
+      tools:text="Release Date"
+      android:textColor="@color/releaseDateColor"
+      style="@style/TextAppearance.MaterialComponents.Subtitle2"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.starwiki.R
 import com.example.starwiki.data.SWDatabase
 import com.example.starwiki.data.SWRepository
 import com.example.starwiki.data.getNetworkService
@@ -32,6 +35,16 @@ class FilmsFragment : Fragment() {
 
     binding.filmList.adapter = adapter
     binding.filmList.layoutManager = LinearLayoutManager(requireContext())
+
+    val dividerItemDecoration = DividerItemDecoration(
+      context,
+      (binding.filmList.layoutManager as LinearLayoutManager).orientation
+    )
+    ResourcesCompat.getDrawable(resources, R.drawable.list_divider, null)?.let {
+      dividerItemDecoration.setDrawable(it)
+    }
+    binding.filmList.addItemDecoration(dividerItemDecoration)
+
     binding.filmList.setHasFixedSize(true)
 
     val database = SWDatabase.getInstance(requireActivity())
@@ -60,7 +73,7 @@ class FilmsFragment : Fragment() {
       it?.let {
         if (it.isEmpty() && binding.filmList.isEmpty()) {
           viewModel.loadFilms()
-        } else if (!it.isEmpty()) {
+        } else if (it.isNotEmpty()) {
           adapter.submitList(it)
         }
       }

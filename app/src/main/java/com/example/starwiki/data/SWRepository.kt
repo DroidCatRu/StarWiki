@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 
 class SWRepository(val network: SWNetwork, val db: FilmDao) {
 
-  val allFilms: LiveData<List<Film>> = db.getAll()
+  val allFilms: LiveData<List<Film>> = db.allFilms
 
   suspend fun loadFilms() {
     try {
@@ -14,14 +14,8 @@ class SWRepository(val network: SWNetwork, val db: FilmDao) {
       db.clearAll()
       db.insertFilms(result.results)
     } catch (cause: Throwable) {
-        throw FilmsRefreshError("Unable to refresh films: ${cause.message}", cause)
+        throw FilmsRefreshError("Unable to load films: ${cause.message}", cause)
     }
-  }
-
-  suspend fun getFilmsCount() = db.getFilmsCount()
-
-  private suspend fun insert(film: Film) {
-    db.insert(film)
   }
 
   private suspend fun update(film: Film) {
@@ -34,10 +28,6 @@ class SWRepository(val network: SWNetwork, val db: FilmDao) {
 
   private fun find(pattern: String): LiveData<List<Film>> {
     return db.find("%${pattern}%")
-  }
-
-  private suspend fun clearAll() {
-    db.clearAll()
   }
 }
 

@@ -6,9 +6,6 @@ import androidx.room.*
 @Dao
 interface FilmDao {
 
-  @Query("SELECT count(*) FROM films_table")
-  suspend fun getFilmsCount(): Long
-
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(film: Film)
 
@@ -18,8 +15,8 @@ interface FilmDao {
   @Update
   suspend fun update(film: Film)
 
-  @Query("SELECT * FROM films_table ORDER BY episodeId ASC")
-  fun getAll(): LiveData<List<Film>>
+  @get:Query("SELECT * FROM films_table ORDER BY episodeId ASC")
+  val allFilms: LiveData<List<Film>>
 
   @Query("SELECT * FROM films_table WHERE episodeId = :episodeId")
   suspend fun get(episodeId: Int): Film?

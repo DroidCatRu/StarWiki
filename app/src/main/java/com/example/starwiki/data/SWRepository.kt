@@ -2,33 +2,66 @@ package com.example.starwiki.data
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.starwiki.data.models.FilmDB
+import com.example.starwiki.data.models.PersonDB
 
-class SWRepository(val network: SWNetwork, val db: FilmDao) {
+class SWRepository(
+  val network: SWNetwork,
+  val filmDb: FilmDao,
+  val filmPersonDb: FilmPersonDao,
+  val personDao: PersonDao
+) {
 
-  val allFilms: LiveData<List<Film>> = db.allFilms
+  val allFilms: LiveData<List<FilmDB>> = filmDb.allFilms
+
+  private val _filmPersonsResult = MutableLiveData<List<PersonDB>>()
+  val filmPersonsResult: LiveData<List<PersonDB>>
+    get() = _filmPersonsResult
 
   suspend fun loadFilms() {
     try {
       val result = network.getAllFilms()
-      Log.d("Films", result.results.toString())
-      db.clearAll()
-      db.insertFilms(result.results)
+
+      filmDb.clearAll()
+      filmDb.insertFilms(SWResult.getDbFilms(result))
+
+      filmPersonDb.clearFilmPersons()
+      filmPersonDb.insertFilmPersons(SWResult.getFilmPersons(result))
+
     } catch (cause: Throwable) {
-        throw FilmsRefreshError("Unable to load films: ${cause.message}", cause)
+      throw FilmsRefreshError("Unable to load films: ${cause.message}", cause)
     }
   }
 
-  private suspend fun update(film: Film) {
-    db.update(film)
+//  fun findFilm(pattern: String): LiveData<List<FilmDB>> {
+//    return filmDb.find("%${pattern}%")
+//  }
+
+  suspend fun getFilmPersons(episodeId: Int) {
+    val filmPersons = ArrayList<PersonDB>()
+    try {
+      val personsList = filmPersonDb.getFilmPersons(episodeId)
+      for (person in personsList) {
+        val personFromDB = personDao.getPerson(person.personId)
+        if (personFromDB != null) {
+          filmPersons.add(personFromDB)
+        } else {
+          val personFromServer = network.getPeopleById(person.personId)
+          personDao.insert(PersonDB(person.personId, personFromServer))
+          filmPersons.add(PersonDB(person.personId, personFromServer))
+        }
+      }
+      _filmPersonsResult.postValue(filmPersons)
+    } catch (cause: Throwable) {
+      throw PersonLoadError("Unable to load characters: ${cause.message}", cause)
+    }
   }
 
-  private suspend fun get(episodeId: Int): Film? {
-    return db.get(episodeId)
-  }
-
-  private fun find(pattern: String): LiveData<List<Film>> {
-    return db.find("%${pattern}%")
+  fun clearFilmPersonsResult() {
+    _filmPersonsResult.value = ArrayList()
   }
 }
 
 class FilmsRefreshError(message: String, cause: Throwable?) : Throwable(message, cause)
+class PersonLoadError(message: String, cause: Throwable?) : Throwable(message, cause)

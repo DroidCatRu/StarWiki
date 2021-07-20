@@ -6,7 +6,7 @@
   <data>
     <variable
       name="film"
-      type="com.example.starwiki.data.Film" />
+      type="com.example.starwiki.data.models.FilmDB" />
 
     <variable
       name="clickListener"

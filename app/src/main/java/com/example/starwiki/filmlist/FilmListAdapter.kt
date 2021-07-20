@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.starwiki.data.Film
+import com.example.starwiki.data.models.FilmDB
 import com.example.starwiki.databinding.FilmItemBinding
 
-class FilmListAdapter(val clickListener: FilmListener) : ListAdapter<Film,
+class FilmListAdapter(val clickListener: FilmListener) : ListAdapter<FilmDB,
     FilmListAdapter.ViewHolder>(FilmDiffCallback()) {
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -22,7 +22,7 @@ class FilmListAdapter(val clickListener: FilmListener) : ListAdapter<Film,
   class ViewHolder private constructor(val binding: FilmItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Film, clickListener: FilmListener) {
+    fun bind(item: FilmDB, clickListener: FilmListener) {
       binding.film = item
       binding.clickListener = clickListener
       binding.executePendingBindings()
@@ -39,18 +39,18 @@ class FilmListAdapter(val clickListener: FilmListener) : ListAdapter<Film,
   }
 }
 
-class FilmDiffCallback : DiffUtil.ItemCallback<Film>() {
+class FilmDiffCallback : DiffUtil.ItemCallback<FilmDB>() {
 
-  override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
+  override fun areItemsTheSame(oldItem: FilmDB, newItem: FilmDB): Boolean {
     return oldItem.episodeId == newItem.episodeId
   }
 
-  override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
+  override fun areContentsTheSame(oldItem: FilmDB, newItem: FilmDB): Boolean {
     return oldItem == newItem
   }
 }
 
-class FilmListener(val clickListener: (film: Film) -> Unit) {
+class FilmListener(val clickListener: (film: FilmDB) -> Unit) {
 
-  fun onClick(film: Film) = clickListener(film)
+  fun onClick(film: FilmDB) = clickListener(film)
 }

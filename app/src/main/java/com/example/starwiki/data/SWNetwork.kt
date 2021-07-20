@@ -1,12 +1,14 @@
 package com.example.starwiki.data
 
+import com.example.starwiki.data.models.Film
+import com.example.starwiki.data.models.Person
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "https://swapi.dev/api/"
@@ -35,5 +37,8 @@ fun getNetworkService() = service
 interface SWNetwork {
 
   @GET("films")
-  suspend fun getAllFilms(): FilmsResult
+  suspend fun getAllFilms(): SWResult<Film>
+
+  @GET("people/{id}")
+  suspend fun getPeopleById(@Path("id") id: Int): Person
 }

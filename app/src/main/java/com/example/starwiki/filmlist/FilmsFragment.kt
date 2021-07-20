@@ -12,9 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.starwiki.R
-import com.example.starwiki.data.SWDatabase
-import com.example.starwiki.data.SWRepository
-import com.example.starwiki.data.getNetworkService
+import com.example.starwiki.SWApp
 import com.example.starwiki.databinding.FilmsFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -45,12 +43,9 @@ class FilmsFragment : Fragment() {
 
     binding.filmList.setHasFixedSize(true)
 
-    val database = SWDatabase.getInstance(requireActivity())
-    val repository = SWRepository(getNetworkService(), database.filmDao)
     val viewModel = ViewModelProvider(
       this, FilmViewModel.FACTORY(
-        repository,
-        requireActivity().application
+        requireActivity().application as SWApp
       )
     )
       .get(FilmViewModel::class.java)

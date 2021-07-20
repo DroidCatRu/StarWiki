@@ -18,8 +18,8 @@
   <fragment
     android:id="@+id/SecondFragment"
     android:label="{title}"
-    android:name="com.example.starwiki.SecondFragment"
-    tools:layout="@layout/fragment_second">
+    android:name="com.example.starwiki.personlist.PersonsFragment"
+    tools:layout="@layout/persons_fragment">
     <argument
       android:name="title"
       app:argType="string"

@@ -4,11 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.starwiki.data.models.FilmDB
+import com.example.starwiki.data.models.FilmPersonDB
+import com.example.starwiki.data.models.PersonDB
 
-@Database(entities = [Film::class], version = 1, exportSchema = false)
+@Database(entities = [FilmDB::class, FilmPersonDB::class, PersonDB::class], version = 2, exportSchema = false)
 abstract class SWDatabase : RoomDatabase() {
 
   abstract val filmDao: FilmDao
+  abstract val filmPersonDao: FilmPersonDao
+  abstract val personDao: PersonDao
 
   companion object {
 

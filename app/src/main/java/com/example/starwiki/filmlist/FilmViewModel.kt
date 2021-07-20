@@ -1,23 +1,24 @@
 package com.example.starwiki.filmlist
 
-import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.starwiki.SWApp
 import com.example.starwiki.data.FilmsRefreshError
-import com.example.starwiki.data.SWRepository
 import com.example.starwiki.util.NetworkState
-import com.example.starwiki.util.twoArgViewModelFactory
+import com.example.starwiki.util.singleArgViewModelFactory
 import kotlinx.coroutines.launch
 
 
-class FilmViewModel(private val repository: SWRepository, app: Application) :
+class FilmViewModel(app: SWApp) :
   AndroidViewModel(app) {
+
+  private val repository = getApplication<SWApp>().repository
 
   companion object {
 
-    val FACTORY = twoArgViewModelFactory(::FilmViewModel)
+    val FACTORY = singleArgViewModelFactory(::FilmViewModel)
   }
 
   val films = repository.allFilms
@@ -88,9 +89,9 @@ class FilmViewModel(private val repository: SWRepository, app: Application) :
       } catch (error: FilmsRefreshError) {
         loadedSuccessfully = false
         if (loadingStatus == LoadingStatus.Loading) {
-          _toastMessage.postValue("Films will be loaded later")
           loadingStatus = LoadingStatus.Interrupted
         }
+        _toastMessage.postValue(error.message)
       } finally {
         _isUpdating.postValue(false)
         if (loadedSuccessfully) {

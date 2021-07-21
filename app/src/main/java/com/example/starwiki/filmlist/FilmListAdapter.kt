@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.starwiki.data.models.FilmDB
 import com.example.starwiki.databinding.FilmItemBinding
 
-class FilmListAdapter(val clickListener: FilmListener) : ListAdapter<FilmDB,
+class FilmListAdapter(private val clickListener: FilmListener) : ListAdapter<FilmDB,
     FilmListAdapter.ViewHolder>(FilmDiffCallback()) {
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -19,7 +19,7 @@ class FilmListAdapter(val clickListener: FilmListener) : ListAdapter<FilmDB,
     return ViewHolder.from(parent)
   }
 
-  class ViewHolder private constructor(val binding: FilmItemBinding) :
+  class ViewHolder private constructor(private val binding: FilmItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: FilmDB, clickListener: FilmListener) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.starwiki.SWApp
 import com.example.starwiki.data.FilmsRefreshError
+import com.example.starwiki.util.LoadingStatus
 import com.example.starwiki.util.NetworkState
 import com.example.starwiki.util.singleArgViewModelFactory
 import kotlinx.coroutines.launch
@@ -100,11 +101,4 @@ class FilmViewModel(app: SWApp) :
       }
     }
   }
-}
-
-enum class LoadingStatus {
-  NotStarted,
-  Loading,
-  Refreshing,
-  Interrupted
 }

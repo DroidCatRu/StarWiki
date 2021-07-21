@@ -5,12 +5,12 @@
 
   <data>
     <variable
-      name="film"
-      type="com.example.starwiki.data.models.FilmDB" />
+      name="person"
+      type="com.example.starwiki.data.models.PersonDB" />
 
     <variable
       name="clickListener"
-      type="com.example.starwiki.filmlist.FilmListener" />
+      type="com.example.starwiki.personlist.PersonListener" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,52 +18,40 @@
     android:layout_height="wrap_content"
     android:paddingVertical="10dp"
     android:paddingHorizontal="10dp"
-    android:onClick="@{() -> clickListener.onClick(film)}">
+    android:onClick="@{() -> clickListener.onClick(person)}">
 
     <TextView
-      android:id="@+id/filmName"
+      android:id="@+id/personName"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      android:text="@{film.title}"
-      tools:text="Title"
+      android:text="@{person.name}"
+      tools:text="Name"
       style="@style/TextAppearance.MaterialComponents.Headline6"/>
 
     <TextView
-      android:id="@+id/filmDirector"
+      android:id="@+id/personGender"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/filmName"
-      app:filmDirector="@{film}"
-      tools:text="Director"
+      app:layout_constraintTop_toBottomOf="@id/personName"
+      app:personGender="@{person}"
+      tools:text="Gender"
       style="@style/TextAppearance.MaterialComponents.Body1"/>
 
     <TextView
-      android:id="@+id/filmProducer"
+      android:id="@+id/personBirth"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/filmDirector"
-      app:filmProducer="@{film}"
-      tools:text="Producer"
+      app:layout_constraintTop_toBottomOf="@id/personGender"
+      app:personBirthYear="@{person}"
+      tools:text="Birth year"
       style="@style/TextAppearance.MaterialComponents.Body1"/>
-
-    <TextView
-      android:id="@+id/filmReleaseDate"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/filmProducer"
-      app:filmReleaseDate="@{film}"
-      tools:text="Release Date"
-      android:textColor="@color/releaseDateColor"
-      style="@style/TextAppearance.MaterialComponents.Subtitle2"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

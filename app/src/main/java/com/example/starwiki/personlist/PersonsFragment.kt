@@ -8,6 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.starwiki.R
@@ -29,7 +30,9 @@ class PersonsFragment : Fragment() {
 
     _binding = PersonsFragmentBinding.inflate(inflater, container, false)
 
-    episodeId = PersonsFragmentArgs.fromBundle(requireArguments()).episodeId
+    val args: PersonsFragmentArgs by navArgs()
+    episodeId = args.film.episodeId
+//    episodeId = PersonsFragmentArgs.fromBundle(requireArguments()).film.episodeId
 
     val adapter = PersonListAdapter(personClickListener)
 

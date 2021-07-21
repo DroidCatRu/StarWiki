@@ -2,7 +2,7 @@ package com.example.starwiki.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.starwiki.data.models.Film
+import java.io.Serializable
 
 @Entity(tableName = "films_table")
 data class FilmDB(
@@ -12,7 +12,7 @@ data class FilmDB(
   var director: String,
   var producer: String,
   var releaseDate: String
-) {
+): Serializable {
 
   constructor(film: Film) : this(
     film.episodeId,

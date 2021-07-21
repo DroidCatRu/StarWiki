@@ -21,13 +21,34 @@ class FilmsFragment : Fragment() {
   private var _binding: FilmsFragmentBinding? = null
   private val binding get() = _binding!!
 
+  private var ableToNavigate = true
+
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
     _binding = FilmsFragmentBinding.inflate(inflater, container, false)
 
-    val adapter = FilmListAdapter(filmClickListener)
+    binding.lifecycleOwner = this
+
+    val viewModel = ViewModelProvider(
+      this, FilmViewModel.FACTORY(
+        requireActivity().application as SWApp
+      )
+    )
+      .get(FilmViewModel::class.java)
+
+    val adapter = FilmListAdapter(FilmListener {
+      if (ableToNavigate && findNavController().currentDestination?.id == R.id.FirstFragment) {
+        ableToNavigate = false
+        findNavController().navigate(
+          FilmsFragmentDirections.actionFirstFragmentToSecondFragment(
+            it.title,
+            it
+          )
+        )
+      }
+    })
 
     binding.filmList.adapter = adapter
     binding.filmList.layoutManager = LinearLayoutManager(requireContext())
@@ -42,15 +63,6 @@ class FilmsFragment : Fragment() {
     binding.filmList.addItemDecoration(dividerItemDecoration)
 
     binding.filmList.setHasFixedSize(true)
-
-    val viewModel = ViewModelProvider(
-      this, FilmViewModel.FACTORY(
-        requireActivity().application as SWApp
-      )
-    )
-      .get(FilmViewModel::class.java)
-
-    binding.lifecycleOwner = this
 
     viewModel.isConnected.observe(viewLifecycleOwner, { connected ->
       connected?.let {
@@ -85,6 +97,15 @@ class FilmsFragment : Fragment() {
       }
     })
 
+    findNavController().addOnDestinationChangedListener { _, destination, _ ->
+      if (destination.id == R.id.SecondFragment) {
+        ableToNavigate = false
+      }
+      if (destination.id == R.id.FirstFragment) {
+        ableToNavigate = true
+      }
+    }
+
     binding.refreshLayout.setOnRefreshListener {
       viewModel.refreshFilms()
     }
@@ -94,9 +115,5 @@ class FilmsFragment : Fragment() {
   override fun onDestroyView() {
     super.onDestroyView()
     _binding = null
-  }
-
-  private val filmClickListener = FilmListener {film ->
-    findNavController().navigate(FilmsFragmentDirections.actionFirstFragmentToSecondFragment(film.title, film.episodeId))
   }
 }

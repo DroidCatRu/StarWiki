@@ -31,12 +31,10 @@ class FilmViewModel(app: SWApp) :
   private var loadingStatus = LoadingStatus.NotStarted
 
   private val _isUpdating = MutableLiveData(false)
-
   val isUpdating: LiveData<Boolean>
     get() = _isUpdating
 
   private val _toastMessage = MutableLiveData<String?>(null)
-
   val toastMessage: LiveData<String?>
     get() = _toastMessage
 

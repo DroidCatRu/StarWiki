@@ -13,7 +13,13 @@
 
     <action
       android:id="@+id/action_FirstFragment_to_SecondFragment"
-      app:destination="@id/SecondFragment" />
+      app:launchSingleTop="true"
+      app:destination="@id/SecondFragment"
+      app:enterAnim="@anim/nav_default_enter_anim"
+      app:exitAnim="@anim/nav_default_exit_anim"
+      app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+      app:popExitAnim="@animator/nav_default_pop_exit_anim"
+      app:popUpTo="@id/FirstFragment" />
   </fragment>
   <fragment
     android:id="@+id/SecondFragment"
@@ -23,9 +29,9 @@
     <argument
       android:name="title"
       app:argType="string"
-      android:defaultValue="Movie info"/>
+      android:defaultValue="Film persons"/>
     <argument
-      android:name="episodeId"
-      app:argType="integer"/>
+      android:name="film"
+      app:argType="com.example.starwiki.data.models.FilmDB" />
   </fragment>
 </navigation>
